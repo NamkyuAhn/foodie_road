@@ -1,5 +1,5 @@
 from pathlib import Path
-from my_settings import DATABASES, SECRET_KEY
+from my_settings import DATABASES, SECRET_KEY, DEBUG, ALGORITHM, SECRET
 
 import pymysql
     
@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -24,13 +24,14 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,9 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',    		
 )
+
+AUTH_USER_MODEL = 'users.User'
+
+ALGORITHM = ALGORITHM
+
+SECRET = SECRET
