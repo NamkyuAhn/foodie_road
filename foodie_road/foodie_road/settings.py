@@ -2,7 +2,7 @@ from pathlib import Path
 from my_settings import DATABASES, SECRET_KEY, DEBUG, ALGORITHM, SECRET
 
 import pymysql
-    
+pymysql.version_info = (1, 4, 3, "final", 0)
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
