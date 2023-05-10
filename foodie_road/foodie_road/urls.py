@@ -5,6 +5,7 @@ from foodie_road import settings
 
 urlpatterns = [
     path('users',include('users.urls')),
+    path('stores', include ('stores.urls')),
 ]
 
 # if settings.DEBUG:
