@@ -20,7 +20,17 @@ class Store(models.Model):
 class StoreImage(models.Model):
     store = models.ForeignKey('stores.Store', on_delete=models.SET_NULL,
                                    null=True, related_name='image')
-    image_urls = models.CharField(max_length=500, null=True, default=None)
+    image_urls = models.CharField(max_length=500, null=False, default=None)
 
     class Meta:
         db_table = 'store_images'
+
+class StoreMenu(models.Model):
+    store = models.ForeignKey('stores.Store', on_delete=models.SET_NULL,
+                                   null=True, related_name='menu')
+    menu_name = models.CharField(max_length=100, null=False)
+    menu_price = models.DecimalField(max_digits=10, decimal_places=2)
+    image_urls = models.CharField(max_length=500, null=False, default=None)
+
+    class Meta:
+        db_table = 'store_menu'
