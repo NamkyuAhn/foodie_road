@@ -1,11 +1,9 @@
 from django.urls import path, include
-from django.conf.urls.static import static
-
-from foodie_road import settings
 
 urlpatterns = [
     path('users',include('users.urls')),
-    path('stores', include ('stores.urls')),
+    path('stores', include('stores.urls')),
+    path('orders', include('orders.urls')),
 ]
 
 # if settings.DEBUG:
