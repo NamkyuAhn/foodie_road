@@ -11,8 +11,8 @@ class UserManager(BaseUserManager):
             raise ValueError('must have user password')
 
         user = self.model(            
-            email     = self.normalize_email(email),         
-            name      = name,
+            email = self.normalize_email(email),         
+            name = name,
         )
 
         user.set_password(password)        
@@ -20,11 +20,13 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    name         = models.CharField(max_length=100)
-    email        = models.EmailField(verbose_name='email', max_length=255, unique=True)
-    created_at   = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(verbose_name='email', max_length=255, unique=True)
+    order = models.ManyToManyField('stores.Store', through="orders.Order", related_name='user_order')
+    created_at = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'email'
     objects = UserManager()
 
     class Meta:
         db_table = 'users'
+
