@@ -1,14 +1,14 @@
 import json
 
-from users.models     import User
-from cores.utils   import jwt_generator, signin_decorator, Validation
+from users.models import User, Like
+from stores.models import Store, StoreImage
+from cores.utils import jwt_generator, signin_decorator, Validation
 
 from django.views               import View
 from django.http                import JsonResponse, HttpResponse
 from django.db.utils            import IntegrityError
 from django.core.exceptions     import ValidationError
 from django.contrib.auth        import authenticate
-
 
 class SignupView(View):
     def post(self, request):
@@ -66,11 +66,36 @@ class SigninView(View):
             
         else:
             return JsonResponse({'message' : 'check email or password'}, status = 400)
-
-class UserIdCheck(View):
+        
+class LikeView(View):
     @signin_decorator
-    def post(self, request):
-        try:
-            return JsonResponse({'your id' : request.user.id, 'exp' : request.payload['exp']}, status = 200)
+    def get(self,request):
+        try : 
+            likes = Like.objects.filter(user_id = request.user.id)
+            result = []
+            for order in likes:
+                store_id = Store.objects.get(id = order.store_id).id
+                store_image = StoreImage.objects.get(store_id = store_id)
+                result.append({
+                        "store_id" : order.store_id,
+                        "store_thumnail" : store_image.image_urls
+                    })
+            return JsonResponse({'likes' : result}, status = 200)
+
         except KeyError:
-            return HttpResponse('Token KeyError')
+            return JsonResponse({'message':'KeyError'}, status = 400) 
+    
+    @signin_decorator
+    def post(self,request):
+        try :
+            data = json.loads(request.body)
+            store_id = data['store_id']
+
+            Like.objects.create(  
+                user_id = request.user.id,
+                store_id = store_id,
+            )
+            return JsonResponse({'message' : 'like created'}, status = 201)
+
+        except KeyError:
+            return JsonResponse({'message':'KeyError'}, status = 400)
