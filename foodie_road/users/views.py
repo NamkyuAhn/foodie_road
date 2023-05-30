@@ -73,11 +73,12 @@ class LikeView(View):
         try : 
             likes = Like.objects.filter(user_id = request.user.id)
             result = []
-            for order in likes:
-                store_id = Store.objects.get(id = order.store_id).id
-                store_image = StoreImage.objects.get(store_id = store_id)
+            for like in likes:
+                store = Store.objects.get(id = like.store_id)
+                store_image = StoreImage.objects.get(store_id = store.id)
                 result.append({
-                        "store_id" : order.store_id,
+                        "store_id" : store.id,
+                        "store_name" : store.store_name,
                         "store_thumnail" : store_image.image_urls
                     })
             return JsonResponse({'likes' : result}, status = 200)
