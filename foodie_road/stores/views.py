@@ -30,6 +30,7 @@ class StoreDetailView(View):
         })
         for menu in menus:
             results.append({
+                "menuImage" : menu.image_urls,
                 "menuName" : menu.menu_name,
                 "menuPrice" : menu.menu_price,
                 "menuId": menu.id
